@@ -24,3 +24,9 @@ samples, guidance on mobile development, and a full API reference.
 1. To create the project, `flutter create the_pledge_bank`. Note the underscores. I realised hyphens aren't 
 allowed in package names
 2. To run simply `flutter run`
+
+## Notes
+1. If the device dropdown is missing, this could happen after switching (windows to mac). To fix, do below:
+`rm -rf .idea`
+`rm *.iml`
+2. Do this with the ide closed. These command remove the android studio specific settings that came from windows.
