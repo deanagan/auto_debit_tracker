@@ -1,4 +1,4 @@
-package com.example.the_pledge_bank
+package com.example.auto_debit_tracker
 
 import io.flutter.embedding.android.FlutterActivity
 

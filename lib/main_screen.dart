@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:the_pledge_bank/pay_screen.dart';
-import 'package:the_pledge_bank/trends_screen.dart';
-import 'package:the_pledge_bank/home_screen.dart';
+import 'package:auto_debit_tracker/pay_screen.dart';
+import 'package:auto_debit_tracker/trends_screen.dart';
+import 'package:auto_debit_tracker/home_screen.dart';
 
 import 'icons/svg_nav_icon.dart';
 

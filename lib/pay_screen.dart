@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_pledge_bank/pay_someone_screen.dart';
+import 'package:auto_debit_tracker/pay_someone_screen.dart';
 
 class PayScreen extends StatelessWidget {
   const PayScreen({super.key});

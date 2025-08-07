@@ -1,6 +1,6 @@
 {
-    "name": "the_pledge_bank",
-    "short_name": "the_pledge_bank",
+    "name": "auto_debit_tracker",
+    "short_name": "auto_debit_tracker",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

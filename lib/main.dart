@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'main_screen.dart';
 
 void main() {
-  runApp(ThePledgeBankApp());
+  runApp(AutoDebitTrackerApp());
 }
 
-class ThePledgeBankApp extends StatelessWidget {
-  const ThePledgeBankApp({super.key});
+class AutoDebitTrackerApp extends StatelessWidget {
+  const AutoDebitTrackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'The Pledge Bank',
+      title: 'Auto Debit Tracker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.grey,

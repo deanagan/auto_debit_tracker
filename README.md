@@ -1,4 +1,4 @@
-# the_pledge_bank
+# Auto Debit Tracker App
 
 A new Flutter project.
 
@@ -21,7 +21,7 @@ samples, guidance on mobile development, and a full API reference.
 3. 
 
 ## Project Creations Steps and Notes
-1. To create the project, `flutter create the_pledge_bank`. Note the underscores. I realised hyphens aren't 
+1. To create the project, `flutter create auto_debit_tracker`. Note the underscores. I realised hyphens aren't 
 allowed in package names
 2. To run simply `flutter run`
 

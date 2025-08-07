@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'data/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          _buildSummaryRow('Total', '\$10,700.00', bold: true),
+          _buildSummaryRow('Total', '\$10,701.00', bold: true),
           SizedBox(height: 8),
           _buildSummaryRow('Credits', '\$10,700.00'),
           _buildSummaryRow('Debits', '-\$20.00'),
