@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/api_service.dart';
+import 'auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,14 +12,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ApiService _apiService = ApiService();
+  final AuthService _authService = AuthService();
   List<Map<String, dynamic>> _accounts = [];
   bool _loading = true;
   String? _error;
+  bool _isAuthenticated = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchAccounts();
+    _authenticateAndFetch();
+  }
+
+  Future<void> _authenticateAndFetch() async {
+    final isAuthenticated = await _authService.authenticate();
+    if (mounted && isAuthenticated) {
+      setState(() {
+        _isAuthenticated = true;
+      });
+      _fetchAccounts();
+    } else if (mounted) {
+      setState(() {
+        _error = 'Authentication failed';
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _fetchAccounts() async {
@@ -68,18 +86,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAccountList() {
-    if (_loading) return const Center(child: CircularProgressIndicator());
-    if (_error != null) return Center(child: Text('Error: $_error'));
-    if (_accounts.isEmpty) return const Center(child: Text('No accounts found'));
-
-    var accounts = _accounts;
+  Widget _buildBody() {
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_error != null) {
+      return Center(
+          child: Text(
+        _error!,
+        style: TextStyle(color: Colors.red, fontSize: 16),
+      ));
+    }
+    if (!_isAuthenticated) {
+      return const Center(child: Text('Authentication required.'));
+    }
+    if (_accounts.isEmpty) {
+      return const Center(child: Text('No accounts found'));
+    }
 
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      itemCount: accounts.length,
+      itemCount: _accounts.length,
       itemBuilder: (context, index) {
-        final acc = accounts[index];
+        final acc = _accounts[index];
         return Card(
           margin: EdgeInsets.symmetric(vertical: 8),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -103,6 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTotalSection() {
+    if (!_isAuthenticated || _error != null) {
+      return Container();
+    }
     return Container(
       color: Colors.blue[700],
       padding: EdgeInsets.all(16),
@@ -134,13 +166,10 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _buildTopBar(),
           _buildTitle(),
-          Expanded(child: _buildAccountList()),
+          Expanded(child: _buildBody()),
           _buildTotalSection(),
         ],
       ),
     );
   }
-
 }
-
-

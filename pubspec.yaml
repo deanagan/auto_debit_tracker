@@ -45,6 +45,7 @@ dependencies:
 
   # http
   http: ^1.4.0
+  local_auth: ^2.2.0
 
 dev_dependencies:
   flutter_test:
