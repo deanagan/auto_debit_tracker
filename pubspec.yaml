@@ -45,7 +45,10 @@ dependencies:
 
   # http
   http: ^1.4.0
-  local_auth: ^2.2.0
+
+  # security
+  local_auth: ^2.3.0
+  flutter_secure_storage: ^9.0.0 # for app pin
 
 dev_dependencies:
   flutter_test:
