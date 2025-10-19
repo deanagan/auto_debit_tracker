@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import '../auth/auth_service.dart';
 import '../auth/lock_preference.dart';
+import '../pin/set_pin_screen.dart';
+import '../otp/link_otp_screen.dart';
 
 class AppLockSettings extends StatefulWidget {
   const AppLockSettings({super.key});
@@ -40,18 +42,31 @@ class _AppLockSettingsState extends State<AppLockSettings> {
   void _pick(LockMethod m) async {
     setState(() => _selected = m);
     await LockPreference.save(m);
+
+    if (!mounted) return;
+
     if (m == LockMethod.appPin) {
-      if (!mounted) return;
-      if (context.mounted) {
-        Navigator.pushNamed(context, '/set-pin'); // implement below
-      }
-    } else if (m == LockMethod.otp) {
-      if (!mounted) return;
-      if (context.mounted) {
-        Navigator.pushNamed(context, '/link-otp'); // implement below
-      }
+      // Ensure a PIN exists before leaving settings
+      final changed = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const SetPinScreen()),
+      );
+      // After setting PIN (or cancel), just pop back; AppGuard will try unlock.
+      Navigator.of(context).pop(); // <-- return to guard
+      return;
     }
+
+    if (m == LockMethod.otp) {
+      await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const LinkOtpScreen()),
+      );
+      Navigator.of(context).pop(); // <-- return to guard
+      return;
+    }
+
+    // For face/fingerprint/device credential/off, we can return immediately
+    Navigator.of(context).pop();
   }
+
 
   @override
   Widget build(BuildContext context) {
