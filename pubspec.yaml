@@ -48,7 +48,10 @@ dependencies:
 
   # security
   local_auth: ^2.3.0
+  shared_preferences: ^2.3.2 # plugin used to store small amounts of data in key-value pairs
   flutter_secure_storage: ^9.0.0 # for app pin
+  crypto: ^3.0.3 # encryption
+
 
 dev_dependencies:
   flutter_test:
