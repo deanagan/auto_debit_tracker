@@ -263,7 +263,7 @@ lib/
 
 ⸻
 
-🧠 Chapter 1 Core Philosophy (The Secret Sauce)
+### 🧠 Chapter 1 Core Philosophy (The Secret Sauce)
 
 	•	Widgets are disposable.
 	•	State drives UI.
