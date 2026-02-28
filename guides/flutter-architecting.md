@@ -1,4 +1,5 @@
-# Flutter Design Patterns and Best Practices (3rd Edition)
+# Flutter Design Patterns and Best Practices
+
 
 ## 🍳 Recipe 1 — Create a Proper Flutter Foundation
 
