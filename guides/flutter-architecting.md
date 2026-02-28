@@ -1,12 +1,6 @@
-# 📘 Chapter 1 — Recipe Guide  
-## Flutter Design Patterns and Best Practices (3rd Edition)
+# Flutter Design Patterns and Best Practices (3rd Edition)
 
-> Book: [Flutter Design Patterns and Best Practices](chatgpt://generic-entity?number=0)  
-> Style: Learn Chapter 1 concepts by *following structured recipes*
-
----
-
-# 🍳 Recipe 1 — Create a Proper Flutter Foundation
+## 🍳 Recipe 1 — Create a Proper Flutter Foundation
 
 ### 🎯 Goal  
 Understand Flutter’s declarative UI and widget tree.
@@ -53,6 +47,7 @@ class HomePage extends StatelessWidget {
 ```
 
 🔎 What This Teaches
+
 	•	Everything is a widget.
 	•	Widgets are immutable.
 	•	UI is declared, not manually updated.
@@ -60,7 +55,7 @@ class HomePage extends StatelessWidget {
 
 ⸻
 
-🍳 Recipe 2 — Add State the Flutter Way
+## 🍳 Recipe 2 — Add State the Flutter Way
 
 🎯 Goal
 
@@ -73,7 +68,7 @@ Understand StatefulWidget and rebuilding.
 👨‍🍳 Steps
 
 Convert HomePage to a stateful widget:
-
+```dart
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -103,8 +98,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+```
 
 🔎 What This Teaches
+
 	•	State lives in the State object.
 	•	setState() triggers a rebuild.
 	•	UI = f(state).
@@ -112,7 +109,7 @@ class _HomePageState extends State<HomePage> {
 
 ⸻
 
-🍳 Recipe 3 — Respect the Widget Lifecycle
+## 🍳 Recipe 3 — Respect the Widget Lifecycle
 
 🎯 Goal
 
