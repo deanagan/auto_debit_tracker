@@ -117,13 +117,14 @@ class _HomePageState extends State<HomePage> {
 Understand when setup and cleanup happen.
 
 🧂 Ingredients
+
 	•	initState()
 	•	dispose()
 
 👨‍🍳 Steps
 
 Add lifecycle logging:
-
+```dart
 @override
 void initState() {
   super.initState();
@@ -135,9 +136,11 @@ void dispose() {
   debugPrint("dispose called");
   super.dispose();
 }
+```
 
 Example with a controller:
 
+```dart
 late final TextEditingController controller;
 
 @override
@@ -151,29 +154,31 @@ void dispose() {
   controller.dispose();
   super.dispose();
 }
+```
 
 🔎 What This Teaches
+
 	•	initState() runs once.
 	•	dispose() prevents memory leaks.
 	•	Poor lifecycle handling causes bugs in large apps.
 
 ⸻
 
-🍳 Recipe 4 — Remove Business Logic from UI
+## 🍳 Recipe 4 — Remove Business Logic from UI
 
 🎯 Goal
 
 Separate concerns early (core Chapter 1 message).
 
 ❌ The Bad Version
-
+```dart
 void increment() async {
   await Future.delayed(const Duration(seconds: 1));
   setState(() {
     counter++;
   });
 }
-
+```
 UI owns logic — hard to scale.
 
 ⸻
@@ -181,7 +186,7 @@ UI owns logic — hard to scale.
 ✅ The Better Version
 
 Create a controller:
-
+```dart
 class CounterController {
   int _counter = 0;
 
@@ -191,9 +196,11 @@ class CounterController {
     _counter++;
   }
 }
+```
 
 Use it inside the widget:
 
+```dart
 class _HomePageState extends State<HomePage> {
   final controller = CounterController();
 
@@ -216,8 +223,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+```
 
 🔎 What This Teaches
+
 	•	UI renders.
 	•	Controller handles logic.
 	•	Easier testing.
@@ -225,25 +234,29 @@ class _HomePageState extends State<HomePage> {
 
 ⸻
 
-🍳 Recipe 5 — Start Thinking in Architecture
+## 🍳 Recipe 5 — Start Thinking in Architecture
 
 🎯 Goal
 
 Structure before scaling.
 
 🧂 Ingredients
+
 	•	Folder separation
 	•	Clean layering mindset
 
 Suggested Structure
 
+```bash
 lib/
  ├── presentation/
  │    └── home_page.dart
  ├── domain/
  │    └── counter_controller.dart
+```
 
 🔎 What This Teaches
+
 	•	Small widgets.
 	•	Clear responsibility boundaries.
 	•	Scalable thinking from day one.
@@ -251,6 +264,7 @@ lib/
 ⸻
 
 🧠 Chapter 1 Core Philosophy (The Secret Sauce)
+
 	•	Widgets are disposable.
 	•	State drives UI.
 	•	Rebuilds are expected.
