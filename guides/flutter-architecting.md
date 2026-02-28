@@ -50,6 +50,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+```
 
 🔎 What This Teaches
 	•	Everything is a widget.
