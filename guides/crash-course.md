@@ -6,10 +6,11 @@
 Dart will feel very familiar if you know C#.
 
 Variables
-
+```dart
 var name = "Plant";
 final age = 3;
 const pi = 3.14;
+```
 
 Keyword	Meaning
 var	inferred type
