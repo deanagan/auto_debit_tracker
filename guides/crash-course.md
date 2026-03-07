@@ -1,16 +1,7 @@
-Here’s a clean Markdown guide you can copy directly into your notes or a .md file.
+# Flutter for React / C# Developers – Fast Ramp-Up Guide
 
-:::writing{variant=“standard” id=“48312”}
 
-Flutter for React / C# Developers – Fast Ramp-Up Guide
-
-This guide is for developers who already know C#, Python, or React and want to start building Flutter apps quickly without beginner tutorials.
-
-You should be able to start building real apps after reading this.
-
-⸻
-
-1. Dart Differences (from C# / TypeScript)
+## 1. Dart Differences (from C# / TypeScript)
 
 Dart will feel very familiar if you know C#.
 
@@ -343,28 +334,3 @@ or
 React + SwiftUI + Canvas
 
 Everything is just nested widgets describing the UI.
-
-⸻
-
-Practical Advice
-
-If you’re an experienced developer:
-
-Skip tutorials and start building something immediately.
-
-Example projects:
-	•	Plant inventory app
-	•	Habit tracker
-	•	Weather app
-	•	Personal finance tracker
-
-You will learn Flutter faster by building than by reading.
-:::
-
-If you’d like, I can also make a second markdown file called flutter-architecture-for-senior-devs.md that explains things like:
-	•	BuildContext (one of the most confusing parts of Flutter)
-	•	InheritedWidget
-	•	Flutter state management (Provider / Riverpod)
-	•	Why Flutter rebuilds widgets constantly
-
-Those are the concepts that usually trip up experienced devs when moving to Flutter.
