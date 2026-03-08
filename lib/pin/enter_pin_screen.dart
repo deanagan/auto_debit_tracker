@@ -25,7 +25,7 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (ok) {
-      Navigator.pop(context, true); // success
+      Navigator.pop(context, true);
     } else {
       setState(() => _err = 'Incorrect PIN');
     }
@@ -40,7 +40,7 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           TextField(
             controller: _pin,
-            decoration: const InputDecoration(labelText: 'PIN'),
+            decoration: const InputDecoration(labelText: 'PIN', border: OutlineInputBorder()),
             keyboardType: TextInputType.number,
             obscureText: true,
             onSubmitted: (_) => _verify(),
@@ -49,6 +49,10 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
             const SizedBox(height: 8),
             Text(_err!, style: const TextStyle(color: Colors.red)),
           ],
+          TextButton(
+            onPressed: () => Navigator.pushReplacementNamed(context, '/link-otp'),
+            child: const Text('Forgot PIN?'),
+          ),
           const Spacer(),
           FilledButton(
             onPressed: _busy ? null : _verify,

@@ -44,6 +44,7 @@ class AppGuard {
         final ok = await Navigator.of(context).push<bool>(
           MaterialPageRoute(builder: (_) => const EnterPinScreen()),
         );
+        print("Pin Screen returned $ok");
         return ok ?? false;
 
       case LockMethod.otp:

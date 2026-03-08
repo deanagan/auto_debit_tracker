@@ -23,7 +23,8 @@ class _SetPinScreenState extends State<SetPinScreen> {
   }
 
   Future<void> _save() async {
-    if (!_formKey.currentState!.validate()) return;
+    final form = _formKey.currentState;
+    if (form == null || !form.validate()) return;
     if (_a.text != _b.text) {
       setState(() => _err = 'PINs do not match');
       return;
@@ -31,7 +32,8 @@ class _SetPinScreenState extends State<SetPinScreen> {
     setState(() { _busy = true; _err = null; });
     await PinService.setPin(_a.text);
     if (!mounted) return;
-    Navigator.pop(context, true); // success
+    // SUCCESS: Pop with true. This will return 'true' to the AppGuard!
+    Navigator.pop(context, true);
   }
 
   String? _pinValidator(String? v) {
@@ -52,16 +54,15 @@ class _SetPinScreenState extends State<SetPinScreen> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             TextFormField(
               controller: _a,
-              decoration: const InputDecoration(labelText: 'New PIN'),
+              decoration: const InputDecoration(labelText: 'New PIN', border: OutlineInputBorder()),
               keyboardType: TextInputType.number,
               obscureText: true,
               validator: _pinValidator,
-              autofillHints: const [AutofillHints.oneTimeCode],
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _b,
-              decoration: const InputDecoration(labelText: 'Confirm PIN'),
+              decoration: const InputDecoration(labelText: 'Confirm PIN', border: OutlineInputBorder()),
               keyboardType: TextInputType.number,
               obscureText: true,
               validator: _pinValidator,

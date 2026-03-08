@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'data/api_service.dart';
-// import 'auth/auth_service.dart';                  // CHANGED: no longer needed
-import 'auth/guard.dart';                           // CHANGED: use AppGuard() for unlock
-import 'settings/app_lock_settings.dart';           // CHANGED: navigate to settings via MaterialPageRoute
+import 'auth/guard.dart';
+import 'settings/app_lock_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,9 +11,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { // CHANGED: observe lifecycle (optional)
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final ApiService _apiService = ApiService();
-  final AppGuard _guard = AppGuard();                 // CHANGED: guard handles biometrics / PIN / OTP per user choice
+  final AppGuard _guard = AppGuard();
 
   List<Map<String, dynamic>> _accounts = [];
   bool _loading = true;
@@ -24,33 +23,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { /
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);        // CHANGED (optional)
-    _authenticateAndFetch();
+    WidgetsBinding.instance.addObserver(this);
+    
+    // FIX: Use addPostFrameCallback to ensure the widget is fully mounted 
+    // before triggering the navigation-heavy authentication flow.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _authenticateAndFetch();
+    });
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);     // CHANGED (optional)
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  // CHANGED (optional): decide if you want to re-lock on resume.
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    // If you want to re-auth when returning to the app, uncomment:
-    // if (state == AppLifecycleState.resumed) {
-    //   await _authenticateAndFetch(forceReload: false);
-    // }
-  }
-
-  // CHANGED: use AppGuard().unlock(context) instead of your old AuthService.authenticate()
   Future<void> _authenticateAndFetch({bool forceReload = true}) async {
+    if (!mounted) return;
+
     setState(() {
       _loading = true;
       _error = null;
     });
 
-    final ok = await _guard.unlock(context);          // <- shows biometrics / device PIN / app PIN / OTP based on user choice
+    final ok = await _guard.unlock(context);
+    
+    // If the widget was unmounted while waiting for the user to authenticate
+    // (e.g. if the app was closed or redirected), we stop here.
     if (!mounted) return;
 
     if (ok) {
@@ -95,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { /
           CircleAvatar(backgroundColor: Colors.grey[300]),
           Row(
             children: [
-              // CHANGED: make settings button open App Lock Settings
               IconButton(
                 icon: const Icon(Icons.settings, color: Colors.black),
                 onPressed: () async {
@@ -128,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { /
       return const Center(child: CircularProgressIndicator());
     }
     if (_error != null) {
-      // CHANGED: add a retry button that re-triggers the guard
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -144,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { /
       );
     }
     if (!_isAuthenticated) {
-      // CHANGED: make this actionable too
       return Center(
         child: FilledButton(
           onPressed: () => _authenticateAndFetch(),
@@ -214,7 +210,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver { /
 
   @override
   Widget build(BuildContext context) {
-    // CHANGED: Wrap with Scaffold to make the settings IconButton ripple look native (optional but recommended)
     return Scaffold(
       body: SafeArea(
         child: Column(
