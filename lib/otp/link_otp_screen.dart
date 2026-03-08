@@ -26,7 +26,13 @@ class _LinkOtpScreenState extends State<LinkOtpScreen> {
     try {
       await OtpService().sendCode(to: to);
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/enter-otp', arguments: to);
+      
+      // Use pushNamed instead of replacement
+      final ok = await Navigator.pushNamed(context, '/enter-otp', arguments: to);
+      
+      if (ok == true && mounted) {
+        Navigator.pop(context, true); // Bubble success back to EnterPinScreen
+      }
     } catch (e) {
       setState(() => _err = e.toString());
     } finally {

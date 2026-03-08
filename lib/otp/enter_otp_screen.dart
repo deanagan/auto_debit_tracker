@@ -38,8 +38,13 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
     if (ok) {
       await PinService.clearPin();
       if (!mounted) return;
-      // Swap OTP screen for Set PIN screen
-      Navigator.pushReplacementNamed(context, '/set-pin');
+      
+      // Use pushNamed and wait for Set PIN to finish
+      final saved = await Navigator.pushNamed(context, '/set-pin');
+      
+      if (saved == true && mounted) {
+        Navigator.pop(context, true); // Bubble success back to LinkOtpScreen
+      }
     } else {
       setState(() => _err = 'Invalid code');
     }

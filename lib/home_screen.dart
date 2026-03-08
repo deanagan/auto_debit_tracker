@@ -19,16 +19,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _loading = true;
   String? _error;
   bool _isAuthenticated = false;
+  
+  // Track if we are already trying to unlock to prevent multiple concurrent requests
+  static bool _isUnlocking = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     
-    // FIX: Use addPostFrameCallback to ensure the widget is fully mounted 
-    // before triggering the navigation-heavy authentication flow.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _authenticateAndFetch();
+      if (mounted) {
+        _authenticateAndFetch();
+      }
     });
   }
 
@@ -39,32 +42,38 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _authenticateAndFetch({bool forceReload = true}) async {
-    if (!mounted) return;
+    if (!mounted || _isUnlocking) return;
 
     setState(() {
       _loading = true;
       _error = null;
     });
 
-    final ok = await _guard.unlock(context);
-    
-    // If the widget was unmounted while waiting for the user to authenticate
-    // (e.g. if the app was closed or redirected), we stop here.
-    if (!mounted) return;
-
-    if (ok) {
-      setState(() => _isAuthenticated = true);
-      if (forceReload || _accounts.isEmpty) {
-        await _fetchAccounts();
-      } else {
-        setState(() => _loading = false);
+    _isUnlocking = true;
+    try {
+      final ok = await _guard.unlock(context);
+      print("The value of mounted is $mounted");
+      if (!mounted) {
+        print('DEBUG: HomeScreen unmounted after unlock');
+        return;
       }
-    } else {
-      setState(() {
-        _isAuthenticated = false;
-        _error = 'Authentication canceled or failed';
-        _loading = false;
-      });
+
+      if (ok) {
+        setState(() => _isAuthenticated = true);
+        if (forceReload || _accounts.isEmpty) {
+          await _fetchAccounts();
+        } else {
+          setState(() => _loading = false);
+        }
+      } else {
+        setState(() {
+          _isAuthenticated = false;
+          _error = 'Authentication canceled or failed';
+          _loading = false;
+        });
+      }
+    } finally {
+      _isUnlocking = false;
     }
   }
 
@@ -83,6 +92,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _loading = false;
       });
     }
+  }
+  
+  // ... rest of the helper methods (buildTopBar, buildTitle, etc.) ...
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildTopBar(),
+            _buildTitle(),
+            Expanded(child: _buildBody()),
+            _buildTotalSection(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildTopBar() {
@@ -205,22 +232,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Text(label, style: style),
         Text(amount, style: style),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildTopBar(),
-            _buildTitle(),
-            Expanded(child: _buildBody()),
-            _buildTotalSection(),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -50,7 +50,13 @@ class _EnterPinScreenState extends State<EnterPinScreen> {
             Text(_err!, style: const TextStyle(color: Colors.red)),
           ],
           TextButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, '/link-otp'),
+            onPressed: () async {
+              // Push the recovery flow and wait for it to finish
+              final ok = await Navigator.pushNamed(context, '/link-otp');
+              if (ok == true && mounted) {
+                Navigator.pop(context, true); // Bubble up the success
+              }
+            },
             child: const Text('Forgot PIN?'),
           ),
           const Spacer(),
