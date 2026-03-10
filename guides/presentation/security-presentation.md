@@ -69,7 +69,7 @@ Banking apps aren't just local; they are **Hybrid**.
 
 The open standard for passwordless authentication.
 
-*   **F**ast **I**dentity **D**online **O**nline.
+*   **F**ast **ID**dentity **O**nline 2.
 *   **WebAuthn**: The API that allows apps to communicate with servers for auth.
 *   **CTAP**: The protocol for devices (phones, YubiKeys) to talk to the authenticator.
 *   **No Shared Secrets**: The server never sees your "password" or private key.
