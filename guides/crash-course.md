@@ -1,107 +1,118 @@
 # Flutter for React / C# Developers – Fast Ramp-Up Guide
 
-
 ## 1. Dart Differences (from C# / TypeScript)
 
 Dart will feel very familiar if you know C#.
 
-Variables
+### Variables
 ```dart
 var name = "Plant";
 final age = 3;
 const pi = 3.14;
 ```
 
-Keyword	Meaning
-var	inferred type
-final	runtime constant (similar to readonly)
-const	compile-time constant
+| Keyword | Meaning |
+|---------|---------|
+| var | inferred type |
+| final | runtime constant (similar to readonly) |
+| const | compile-time constant |
 
 Example:
 
+```dart
 final DateTime now = DateTime.now();
 const gravity = 9.8;
+```
 
+---
 
-⸻
-
-Classes
+### Classes
 
 Dart classes are very similar to C#.
 
+```dart
 class Plant {
   final String name;
 
   Plant(this.name);
 }
+```
 
 Expanded version:
 
+```dart
 class Plant {
   final String name;
 
   Plant(String name) : name = name;
 }
+```
 
+---
 
-⸻
-
-Named Parameters
+### Named Parameters
 
 Dart frequently uses named parameters.
 
+```dart
 void addPlant({required String name, int count = 1}) {
   print("$name x$count");
 }
+```
 
 Usage:
 
+```dart
 addPlant(name: "Rose", count: 2);
+```
 
 This pattern is used everywhere in Flutter widgets.
 
-⸻
+---
 
-Async / Await
+### Async / Await
 
 Works almost exactly like C#.
 
+```dart
 Future<List<String>> loadPlants() async {
   await Future.delayed(Duration(seconds: 1));
   return ["Rose", "Basil"];
 }
+```
 
+---
 
-⸻
+### Lists and Maps
 
-Lists and Maps
-
+```dart
 var plants = ["Rose", "Basil", "Mint"];
 
 var watering = {
   "Rose": 3,
   "Mint": 2
 };
+```
 
+---
 
-⸻
-
-2. Understanding the Flutter Widget Tree
+## 2. Understanding the Flutter Widget Tree
 
 Flutter UI is built from widgets.
 
 Everything is a widget:
-	•	text
-	•	buttons
-	•	layout containers
-	•	entire screens
+- text
+- buttons
+- layout containers
+- entire screens
 
 Widgets are simply nested objects.
 
-⸻
+---
 
-Example Screen
+### Example Screen
 
+```dart
 return Scaffold(
   appBar: AppBar(title: Text("GreenThumb")),
   body: Column(
@@ -114,9 +125,11 @@ return Scaffold(
     ],
   ),
 );
+```
 
 Widget tree representation:
 
+```
 Scaffold
  ├ AppBar
  │   └ Text
@@ -124,60 +137,67 @@ Scaffold
      ├ Text
      └ ElevatedButton
          └ Text
+```
 
+---
 
-⸻
+### React vs Flutter
 
-React vs Flutter
+**React:**
 
-React:
-
+```jsx
 <div>
   <h1>Plants</h1>
   <button>Add</button>
 </div>
+```
 
-Flutter:
+**Flutter:**
 
+```dart
 Column(
   children: [
     Text("Plants"),
     ElevatedButton(...)
   ],
 )
+```
 
 Conceptually:
 
-React	Flutter
-JSX	Dart widget constructors
-Component	Widget
-DOM	Widget tree
-CSS	Layout widgets
+| React | Flutter |
+|-------|---------|
+| JSX | Dart widget constructors |
+| Component | Widget |
+| DOM | Widget tree |
+| CSS | Layout widgets |
 
 Flutter renders directly using Skia, not the DOM.
 
-⸻
+---
 
-Stateless vs Stateful Widgets
+### Stateless vs Stateful Widgets
 
-Stateless
+#### Stateless
 
 UI never changes.
 
+```dart
 class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text("My Plants");
   }
 }
+```
 
+---
 
-⸻
-
-Stateful
+#### Stateful
 
 UI changes over time.
 
+```dart
 class Counter extends StatefulWidget {
   @override
   State<Counter> createState() => _CounterState();
@@ -191,34 +211,37 @@ class _CounterState extends State<Counter> {
     return Text("$count");
   }
 }
+```
 
 Updating state:
 
+```dart
 setState(() {
   count++;
 });
+```
 
+---
 
-⸻
-
-3. Flutter Layout (Most Important Concept)
+## 3. Flutter Layout (Most Important Concept)
 
 Flutter layout is similar to Flexbox.
 
 The most common layout widgets are:
 
-Widget	Equivalent
-Row	flex row
-Column	flex column
-Expanded	flex-grow
-Padding	padding
-Container	div
+| Widget | Equivalent |
+|--------|------------|
+| Row | flex row |
+| Column | flex column |
+| Expanded | flex-grow |
+| Padding | padding |
+| Container | div |
 
+---
 
-⸻
+### Column Example
 
-Column Example
-
+```dart
 Column(
   children: [
     Text("Rose"),
@@ -226,64 +249,72 @@ Column(
     Text("Mint"),
   ],
 )
+```
 
 Vertical layout.
 
-⸻
+---
 
-Row Example
+### Row Example
 
+```dart
 Row(
   children: [
     Text("Rose"),
     Icon(Icons.local_florist),
   ],
 )
+```
 
 Horizontal layout.
 
-⸻
+---
 
-Expanded (Flex Grow)
+### Expanded (Flex Grow)
 
+```dart
 Row(
   children: [
     Expanded(child: Text("Plant Name")),
     Icon(Icons.edit)
   ],
 )
+```
 
 Expanded takes remaining space.
 
-⸻
+---
 
-Padding
+### Padding
 
+```dart
 Padding(
   padding: EdgeInsets.all(16),
   child: Text("Plant Name"),
 )
+```
 
+---
 
-⸻
-
-Container
+### Container
 
 A general-purpose wrapper.
 
+```dart
 Container(
   padding: EdgeInsets.all(10),
   color: Colors.green,
   child: Text("Plant"),
 )
+```
 
+---
 
-⸻
-
-4. A Typical Flutter Screen
+## 4. A Typical Flutter Screen
 
 Example plant list page.
 
+```dart
 class PlantListPage extends StatelessWidget {
   final plants = ["Rose", "Mint", "Basil"];
 
@@ -302,27 +333,28 @@ class PlantListPage extends StatelessWidget {
     );
   }
 }
+```
 
+---
 
-⸻
+## 5. The 10 Flutter Concepts to Learn Early
 
-5. The 10 Flutter Concepts to Learn Early
-	1.	StatelessWidget
-	2.	StatefulWidget
-	3.	BuildContext
-	4.	Scaffold
-	5.	ListView.builder
-	6.	Navigator
-	7.	FutureBuilder
-	8.	setState
-	9.	Expanded
-	10.	MediaQuery
+1. StatelessWidget
+2. StatefulWidget
+3. BuildContext
+4. Scaffold
+5. ListView.builder
+6. Navigator
+7. FutureBuilder
+8. setState
+9. Expanded
+10. MediaQuery
 
 Once you understand these, you can build most Flutter apps.
 
-⸻
+---
 
-Mental Model
+## Mental Model
 
 Think of Flutter as:
 
