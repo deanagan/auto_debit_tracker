@@ -4,21 +4,119 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Security Presentation</title>
+		<title>Flutter Security Lightning Talk</title>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
-
-		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-markdown="security-presentation.md"
-						 data-separator="^\n---\n$"
-						 data-separator-vertical="^\n--\n$">
+				<section data-markdown>
+					<textarea data-template>
+# Security in Flutter: Beyond the Basics
+### 🔒 A Lightning Talk
+
+---
+
+## 🤳 What are Biometrics?
+It's NOT just "checking a face."
+
+*   **Privacy First**: Your app NEVER sees the fingerprint or face data.
+*   **The Handshake**:
+    1. App asks OS: "Can I authenticate?"
+    2. OS handles the UI and the sensor.
+    3. OS returns a simple `true` or `false`.
+
+---
+
+## 🏛️ The Secure Enclave (TEE)
+Why it's safer than a PIN.
+
+*   **Isolated Hardware**: Biometric data is stored on a separate chip (Secure Enclave on iOS, TEE on Android).
+*   **Encrypted Path**: The main processor (and your app) can't even read that memory.
+*   **Anti-Hammering**: The hardware chip itself handles the "wait 30 seconds" lockout.
+
+---
+
+## 🛠️ The Tech Stack
+
+*   **`local_auth`**: Native biometric integration.
+*   **`flutter_secure_storage`**: Encrypted key-value storage.
+*   **`crypto`**: SHA-256 hashing for PIN security.
+
+---
+
+## 🤳 Step 1: Implementing Face ID
+
+```dart
+// lib/auth/auth_service.dart
+Future<bool> authenticate() {
+  return _auth.authenticate(
+    localizedReason: 'Access your accounts',
+    options: const AuthenticationOptions(
+      biometricOnly: true, // Forces Face ID / Fingerprint
+      stickyAuth: true,    // Survives app switching
+    ),
+  );
+}
+```
+
+---
+
+## 🔑 Step 2: Custom App PIN
+"The Fallback"
+
+*   **Rule**: Never store raw PINs!
+*   **Rule**: Never use standard SharedPreferences.
+*   **Solution**: SHA-256 Hash + `FlutterSecureStorage`.
+
+---
+
+## 🚀 DEMO: The "Forgot PIN" Flow
+
+*Live Demo on Simulator*
+
+1. **Lockout**: Simulate a forgotten PIN.
+2. **Verify**: Trigger OTP via "Forgot PIN".
+3. **Reset**: Wipe Secure Storage & set new credentials.
+4. **Result**: Full recovery without data loss.
+
+---
+
+## 🛡️ Modern Trends: FIDO2 & Passkeys
+
+*   **FIDO2**: The open standard for passwordless auth.
+*   **Passkeys**: Public Key Cryptography.
+*   **Private Key**: Locked in your phone's Secure Enclave.
+*   **Public Key**: Shared with the server.
+*   **Result**: Phishing is mathematically impossible.
+
+---
+
+## ⚠️ Pitfalls (The "Hard Lessons")
+
+### 1. The `mounted` Trap
+Async auth can outlive its widget.
+*   *Solution*: `if (!mounted) return;`
+
+### 2. `IndexedStack` Races
+Bottom Nav bars initialize all tabs at once!
+*   *Solution*: Use a "Concurrency Lock" (`static bool _isUnlocking`).
+
+---
+
+## 🏁 Summary
+
+*   **Biometrics**: High privacy, high security.
+*   **Secure Storage**: Encryption is non-negotiable.
+*   **Recovery**: Don't leave your users locked out.
+
+### "Security is a process, not a product."
+**Thank You!**
+					</textarea>
 				</section>
 			</div>
 		</div>
@@ -26,15 +124,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
 		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight ]
 			});
 		</script>
 	</body>
