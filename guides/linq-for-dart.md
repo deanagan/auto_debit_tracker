@@ -1,4 +1,3 @@
-```markdown
 # LINQ for Dart: A Guide for C# Developers
 
 If you are coming from a C# background, Dart’s `Iterable` API provides almost all the same functionality as **LINQ Fluent Syntax**.
@@ -24,7 +23,6 @@ If you are coming from a C# background, Dart’s `Iterable` API provides almost 
 ```csharp
 var names = users.Where(u => u.Age > 18).Select(u => u.Name).ToList();
 
-```
 **Dart:**
 ```dart
 var names = users.where((u) => u.age > 18).map((u) => u.name).toList();
