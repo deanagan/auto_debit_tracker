@@ -1,5 +1,3 @@
-I hear you—copy-pasting from a rendered table or a PDF-style document can be a nightmare for formatting.
-To make it easier for your local setup, I’ve provided the raw **Markdown** content below. You can simply copy this entire block, save it as Dart_LINQ.md, and it will render perfectly in VS Code, Obsidian, or any Markdown viewer.
 ```markdown
 # LINQ for Dart: A Guide for C# Developers
 
