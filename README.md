@@ -18,7 +18,6 @@ samples, guidance on mobile development, and a full API reference.
 ## Project Prerequisites
 1. Install Android Studio (developing for Android)
 2. Download a virtual device
-3. 
 
 ## Project Creations Steps and Notes
 1. To create the project, `flutter create auto_debit_tracker`. Note the underscores. I realised hyphens aren't 
